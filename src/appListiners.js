@@ -1,17 +1,33 @@
 const { ipcMain } = require("electron");
 
-const { modalAbrirRoupa } = require("./windowModal");
+const { modalAbrirRoupa, modalAbrirEntrada } = require("./windowModal");
+// importação de roupas
 const {
   adicionarRoupasDb,
   buscarRoupasDb,
   excluirRoupaDb,
   atualizarRoupaDb,
   buscarRoupasPorNomeDb,
-
 } = require("./public/roupa/roupaDb");
+
+// importação de entrada 
+const {buscarEntradaDb} = require("./public/entrada/entradaDb")
+
+//login validar //
 const { validarLogin } = require("./public/login/loginDb");
+
+// cria janela principal do menu apos a confirmação dos dados
 const { createMainWindow } = require("./mainWindor");
 
+//////////////////////////////////////////////////////////////////////
+// AQUI SEPARA AS IMPORTAÇÃO, DAS FUNÇÕES DE CHAMADA DO SISTEMA NO BACK AND
+/////////////////////////////////////////////////////////////////////
+//registro de entrada
+function registrarEntrada(){
+  ipcMain.handle("buscar-entrada", buscarEntradaDb);
+}
+
+// registro de roupas
 function registrarRoupa() {
   ipcMain.handle("buscar-roupa", buscarRoupasDb);
   ipcMain.handle("adicionar-roupa", adicionarRoupasDb);
@@ -26,6 +42,7 @@ function registrarModal() {
 
 function registrarJanelaPrincipal() {
   ipcMain.on("janela-principal", createMainWindow);
+  ipcMain.on("janela-entrada", modalAbrirEntrada)
 }
 
 function registrarvalidarLogin() {
@@ -33,6 +50,7 @@ function registrarvalidarLogin() {
 }
 
 function registrarListner() {
+  registrarEntrada();
   registrarRoupa();
   registrarModal();
   registrarvalidarLogin();

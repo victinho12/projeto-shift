@@ -18,6 +18,7 @@ function crirarJanelaModal(telaPai, arquivoHtml){
     return janela
 }
 
+// modal das roupas  
 function modalAbrirRoupa(event){
     console.log('vou abrir as roupas')
     let mainWindow = getMainWindow()
@@ -28,7 +29,19 @@ function modalAbrirRoupa(event){
     }
 }
 
+// modal das entradas
+function modalAbrirEntrada(event){
+    console.log('vou abrir entrada')
+    let mainWindow = getMainWindow()
+    if(mainWindow){
+        crirarJanelaModal(mainWindow, './src/public/entrada/entrada.html')
+    }else{
+        console.warn('não foi possivel abrir')
+    }
+}
+
 module.exports = {
     crirarJanelaModal,
-    modalAbrirRoupa
+    modalAbrirRoupa,
+    modalAbrirEntrada,
 }
