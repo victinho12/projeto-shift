@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ROUPAS SHIFT</title>
+
+    <link rel="stylesheet" href="roupa.css" />
+    <script src="https://unpkg.com/lucide@latest"></script>
+  </head>
+  <body>
+    <h1>CADASTRO DE ROUPAS</h1>
+    <br />
+    <button id="limpar-tudo">
+      <i data-lucide="circle-fading-arrow-up"></i>
+    </button>
+    <br />
+    <input type="text" id="filtro-nome" placeholder="Digite o nome da roupa" />
+    <button id="btn-buscar">Buscar</button>
+    <br />
+    <br />
+    <table id="roupaTable">
+      <thead>
+        <tr>
+          <th>NOME</th>
+          <th>COR</th>
+          <th>SALDO</th>
+          <th>PREÇO</th>
+        </tr>
+      </thead>
+      <tbody id="roupaTableDados"></tbody>
+    </table>
+
+    <div id="modal">
+      <h3>Edite os dados da roupa</h3>
+
+      <br />
+      <label>Id: <input type="text" id="roupa-id" /> </label>
+      <br />
+      <label>Nome: <input type="text" id="roupa-nome" /> </label>
+      <br />
+      <label>COR: <input type="text" id="roupa-cor" /> </label>
+      <br />
+      <label>SALDO: <input type="number" id="roupa-saldo" /> </label>
+      <br />
+      <label>PREÇO: <input type="number" id="roupa-preço" /> </label>
+      <br />
+
+      <button id="btn-salvar"><i data-lucide="save"></i></button>
+      <button id="btn-excluir"><i data-lucide="trash-2"></i></button>
+    </div>
+
+    <script>
+      lucide.createIcons();
+    </script>
+    <script src="roupa.js"></script>
+  </body>
+</html>

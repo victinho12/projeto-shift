@@ -1,0 +1,27 @@
+{
+  "name": "projeto-shift",
+  "version": "1.0.0",
+  "description": "Esse pequeno projeto será feito com o framework electron, assim usado o banco de dados sql vou criar um sistema de gerenciamento de uma loja de roupa",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/victinho12/projeto-shift.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/victinho12/projeto-shift/issues"
+  },
+  "homepage": "https://github.com/victinho12/projeto-shift#readme",
+  "devDependencies": {
+    "electron": "^36.4.0"
+  },
+  "dependencies": {
+    "lucide": "^0.515.0",
+    "lucide-static": "^0.517.0",
+    "pg": "^8.16.0"
+  }
+}
