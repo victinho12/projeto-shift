@@ -3,7 +3,39 @@ const path = require("path");
 
 let mainWindow;
 let windowLogin;
+let mainWindorUser;
 
+
+
+// principal para usuarios
+function createMainWindowUser(){
+  nativeTheme.themeSource = "dark";
+  mainWindorUser = new BrowserWindow({
+    width: 800,
+    height: 600,
+    icon: path.join(__dirname,  'public', 'img', 'img.goku.jpg'),
+    resizable: true,
+    autoHideMenuBar: false,
+    //titleBarStyle: 'hidden',
+    webPreferences: {
+      preload: path.join(__dirname, "preload.js"),
+    },
+  });
+  //Menu personalizado
+  Menu.setApplicationMenu(Menu.buildFromTemplate(template));
+  mainWindorUser.loadFile(path.join(__dirname, "views", "indexUser.html"));
+
+  if (windowLogin) {
+    windowLogin.close();
+  }
+
+  mainWindorUser.on("closed", () => {
+    mainWindorUser = null;
+  });
+  return mainWindorUser;
+}
+
+// principal para adm
 function createMainWindow() {
   nativeTheme.themeSource = "dark";
   mainWindow = new BrowserWindow({
@@ -23,7 +55,6 @@ function createMainWindow() {
 
   if (windowLogin) {
     windowLogin.close();
-    windowLogin = null;
   }
 
   mainWindow.on("closed", () => {
@@ -34,6 +65,10 @@ function createMainWindow() {
 
 function getMainWindow() {
   return mainWindow;
+}
+
+function getMainWindowUser(){
+  return mainWindorUser;
 }
 
 function creatLoginWindow() {
@@ -60,8 +95,10 @@ function getWindowLogin() {
 module.exports = {
   getMainWindow,
   getWindowLogin,
+  getMainWindowUser,
   createMainWindow,
   creatLoginWindow,
+  createMainWindowUser,
 };
 
 // template menu

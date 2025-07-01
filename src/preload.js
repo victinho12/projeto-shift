@@ -10,6 +10,22 @@ function buscarEntradaPreload() {
   return ipcRenderer.invoke("buscar-entrada");
 }
 
+function adicionarEntradaPreload(id_roupa, quantidade, data_entrega){
+  return ipcRenderer.invoke("adicionar-entrada", id_roupa, quantidade, data_entrega);
+}
+
+function atualizarEntradaPreload(id, id_roupa, quantidade, data_entrega){
+  return ipcRenderer.invoke("atualizar-entrada", id, id_roupa, quantidade, data_entrega);
+}
+
+function deletarEntradaPreload(id){
+  return ipcRenderer.invoke("deletar-entrada",id);
+}
+
+function buscarEtradaNomePreload(nome){
+  return ipcRenderer.invoke("buscar-nome-entrada", nome);
+}
+
 ///////////////////////////////
 //espaço para roupa
 ///////////////////////////////
@@ -51,9 +67,13 @@ contextBridge.exposeInMainWorld("shiftAPI", {
 
   // entrada
   buscarEntradaPreload: buscarEntradaPreload,
+  adicionarEntradaPreload:adicionarEntradaPreload,
+  atualizarEntradaPreload: atualizarEntradaPreload,
+  deletarEntradaPreload:deletarEntradaPreload,
+  buscarEtradaNomePreload: buscarEtradaNomePreload,
 
   // login
-  validarLoginPreload,
+  validarLoginPreload: validarLoginPreload,
 });
 
 ///////////////////////////////
@@ -69,9 +89,31 @@ function abrirJanelaEntrada() {
 function abrirJanelaPrincipal() {
   ipcRenderer.send("janela-principal");
 }
+function abrirJanelaPrincipalUser(){
+  ipcRenderer.send("janela-user")
+}
 
 contextBridge.exposeInMainWorld("abrirJanela", {
   abrirJanelaRoupa: abrirJanelaRoupa,
   abrirJanelaPrincipal: abrirJanelaPrincipal,
   abrirJanelaEntrada: abrirJanelaEntrada,
+  abrirJanelaPrincipalUser:abrirJanelaPrincipalUser,
 });
+
+
+///////////////////////////////
+//espaço para janelas de dialog
+///////////////////////////////
+
+function alert(mensagem){
+ return ipcRenderer.invoke("abrir-dialog-alert", mensagem)
+}
+
+function confirm(mensagem){
+ return ipcRenderer.invoke("abrir-dialog-confirm", mensagem)
+}
+
+contextBridge.exposeInMainWorld("dialog",{
+  alert,
+  confirm
+})

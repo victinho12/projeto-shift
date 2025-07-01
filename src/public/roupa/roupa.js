@@ -8,50 +8,63 @@ const modalNomeRoupa = document.getElementById("roupa-nome");
 const modalCorRoupa = document.getElementById("roupa-cor");
 const modalSaldoRoupa = document.getElementById("roupa-saldo");
 const modalPreço = document.getElementById("roupa-preço");
-const inputFiltro = document.getElementById('filtro-nome');
+const inputFiltro = document.getElementById("filtro-nome");
 // botões
 
 const limparTudo = document.getElementById("limpar-tudo");
 const botaoSalvar = document.getElementById("btn-salvar");
 const botaoExcluir = document.getElementById("btn-excluir");
 const botaoLimpar = document.getElementById("btn-limpar");
-const btnBuscar = document.getElementById('btn-buscar');
+const btnBuscar = document.getElementById("btn-buscar");
 // variavel global que recebe lista de roupas
-let listaRoupa = []
 
 // eventos de click
 limparTudo.addEventListener("click", limparRoupa);
 botaoSalvar.addEventListener("click", verificarSalvar);
 botaoExcluir.addEventListener("click", excluirRoupa);
-btnBuscar.addEventListener("click", buscarPorNome)
+btnBuscar.addEventListener("click", buscarPorNome);
 // funções de usuario
 
-
 async function atualizarRoupa() {
-    const id = modalIdRoupa.value;
-    const nome = modalNomeRoupa.value;
-    const cor = modalCorRoupa.value;
-    const saldo = modalSaldoRoupa.value;
-    const preço = modalPreço.value;
+  const id = modalIdRoupa.value;
+  const nome = modalNomeRoupa.value;
+  const cor = modalCorRoupa.value;
+  const saldo = modalSaldoRoupa.value;
+  const preço = modalPreço.value;
 
-    const returno = await window.shiftAPI.atualizarRoupaPreload(id,nome,cor,saldo,preço)
+  if (await window.dialog.confirm(`dejesa atualizar a ${nome}`)) {
+      await window.shiftAPI.atualizarRoupaPreload(
+      id,
+      nome,
+      cor,
+      saldo,
+      preço
+    );
     modalIdRoupa.value = "";
     modalNomeRoupa.value = "";
     modalCorRoupa.value = "";
     modalSaldoRoupa.value = "";
     modalPreço.value = "";
     carregarLinhaRoupa();
+    await window.dialog.alert(`${nome} atualizado com sucesso.`)
+  }
 }
 
 async function excluirRoupa() {
+  const nome = modalIdRoupa.value;
   const id = modalIdRoupa.value;
   console.log(id);
-  const returno = await window.shiftAPI.excluirRoupaPreload(id);
-  modalNomeRoupa.value = "";
-  modalCorRoupa.value = "";
-  modalSaldoRoupa.value = "";
-  modalPreço.value = "";
-  carregarLinhaRoupa();
+
+  if (await window.dialog.confirm(`Deseja deletar o item ${nome}`)) {
+    await window.shiftAPI.excluirRoupaPreload(id);
+    modalIdRoupa.value = "";
+    modalNomeRoupa.value = "";
+    modalCorRoupa.value = "";
+    modalSaldoRoupa.value = "";
+    modalPreço.value = "";
+    carregarLinhaRoupa();
+    await window.dialog.alert(`item ${id} deletado com sucesso.`);
+  }
 }
 
 async function inserirRoupa() {
@@ -59,8 +72,6 @@ async function inserirRoupa() {
   const cor = modalCorRoupa.value;
   const saldo = modalSaldoRoupa.value;
   const preço = modalPreço.value;
-
-  console.log("inserir roupa", nome);
   const returno = await window.shiftAPI.adicionarRoupasPreload(
     nome,
     cor,
@@ -68,6 +79,7 @@ async function inserirRoupa() {
     preço
   );
   carregarLinhaRoupa();
+  await window.dialog.alert(`${nome} adicionado(a) com sucesso!`);
 }
 
 async function carregarLinhaRoupa() {
@@ -79,7 +91,12 @@ async function carregarLinhaRoupa() {
     tabelaRoupa.textContent = "sem dados";
   }
 
-  lucide.createIcons(); // renderiza os ícones do Lucide
+  const tipoUser = localStorage.getItem("perfil");
+  if (tipoUser !== "adm") {
+    botaoExcluir.disabled = true;
+    botaoSalvar.disabled = true;
+  }
+  lucide.createIcons();
 }
 
 function criarLinhaRoupa(roupa) {
@@ -141,20 +158,24 @@ function verificarSalvar() {
   }
 }
 
-//filtrar por nome function 
+//filtrar por nome function
 async function buscarPorNome() {
-     const nomeBusca = inputFiltro.value.trim();
+  const nomeBusca = inputFiltro.value.trim();
   if (!nomeBusca) {
-    carregarLinhaRoupa(); return;
-  }
-
-  const listaFiltrada = await window.shiftAPI.buscarRoupasPorNomePreload(nomeBusca);
-  tabelaRoupa.innerHTML = '';
-  if (listaFiltrada.length === 0) {
-    tabelaRoupa.textContent = 'Nenhuma roupa encontrada';
+    carregarLinhaRoupa();
     return;
   }
+  const listaFiltrada = await window.shiftAPI.buscarRoupasPorNomePreload(
+    nomeBusca
+  );
+  tabelaRoupa.innerHTML = "";
+  if (listaFiltrada.length === 0) {
+    tabelaRoupa.textContent = "Nenhuma roupa encontrada";
+    return;
+  }
+
   listaFiltrada.forEach(criarLinhaRoupa);
+  lucide.createIcons();
 }
 
 carregarLinhaRoupa();
