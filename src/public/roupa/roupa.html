@@ -19,36 +19,48 @@
     <button id="btn-buscar">Buscar</button>
     <br />
     <br />
-    <table id="roupaTable">
-      <thead>
-        <tr>
-          <th>NOME</th>
-          <th>COR</th>
-          <th>SALDO</th>
-          <th>PREÇO</th>
-          <th>EDITAR</th>
-        </tr>
-      </thead>
-      <tbody id="roupaTableDados"></tbody>
-    </table>
+    <div class="container">
+      <table id="roupaTable">
+        <thead>
+          <tr>
+            <th>NOME</th>
+            <th>COR</th>
+            <th>SALDO</th>
+            <th>PREÇO</th>
+            <th>TAMANHO</th>
+            <th>EDITAR</th>
+          </tr>
+        </thead>
+        <tbody id="roupaTableDados"></tbody>
+      </table>
 
-    <div id="modal">
-      <h3>Edite os dados da roupa</h3>
+      <div id="modal">
+        <h3>Edite os dados da roupa</h3>
 
-      <br />
-      <label>Id: <input type="text" id="roupa-id" /> </label>
-      <br />
-      <label>Nome: <input type="text" id="roupa-nome" /> </label>
-      <br />
-      <label>COR: <input type="text" id="roupa-cor" /> </label>
-      <br />
-      <label>SALDO: <input type="number" id="roupa-saldo" /> </label>
-      <br />
-      <label>PREÇO: <input type="number" id="roupa-preço" /> </label>
-      <br />
+        <br />
+        <label>Id: <input type="text" id="roupa-id" /> </label>
 
-      <button id="btn-salvar"><i data-lucide="save"></i></button>
-      <button id="btn-excluir"><i data-lucide="trash-2"></i></button>
+        <label>Nome: <input type="text" id="roupa-nome" /> </label>
+
+        <label>COR: <input type="text" id="roupa-cor" /> </label>
+
+        <label>SALDO: <input type="number" id="roupa-saldo" /> </label>
+
+        <label>PREÇO: <input type="number" id="roupa-preço" /> </label>
+
+        <label
+          ><select id="roupa-tamanho">
+            <option value="PP">PP</option>
+            <option value="P">P</option>
+            <option value="M">M</option>
+            <option value="G">G</option>
+            <option value="GG">GG</option>
+          </select>
+        </label>
+
+        <button id="btn-salvar"><i data-lucide="save"></i></button>
+        <button id="btn-excluir"><i data-lucide="trash-2"></i></button>
+      </div>
     </div>
 
     <script>

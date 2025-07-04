@@ -30,8 +30,8 @@ function buscarEtradaNomePreload(nome){
 //espaço para roupa
 ///////////////////////////////
 
-function atualizarRoupaPreload(id, nome, cor, saldo, preço) {
-  return ipcRenderer.invoke("atualizar-roupa", id, nome, cor, saldo, preço);
+function atualizarRoupaPreload(id, nome, cor, saldo, preço, tamanho) {
+  return ipcRenderer.invoke("atualizar-roupa", id, nome, cor, saldo, preço, tamanho);
 }
 
 function excluirRoupaPreload(id) {
@@ -46,8 +46,8 @@ function buscarRoupasPreload() {
   return ipcRenderer.invoke("buscar-roupa");
 }
 
-function adicionarRoupasPreload(nome, cor, saldo, preço) {
-  return ipcRenderer.invoke("adicionar-roupa", nome, cor, saldo, preço);
+function adicionarRoupasPreload(nome, cor, saldo, preço, tamanho) {
+  return ipcRenderer.invoke("adicionar-roupa", nome, cor, saldo, preço, tamanho);
 }
 ///////////////////////////////
 //espaço para validar login de usuario

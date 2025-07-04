@@ -9,6 +9,7 @@ const modalCorRoupa = document.getElementById("roupa-cor");
 const modalSaldoRoupa = document.getElementById("roupa-saldo");
 const modalPreço = document.getElementById("roupa-preço");
 const inputFiltro = document.getElementById("filtro-nome");
+const modalTamanho = document.getElementById("roupa-tamanho")
 // botões
 
 const limparTudo = document.getElementById("limpar-tudo");
@@ -31,6 +32,7 @@ async function atualizarRoupa() {
   const cor = modalCorRoupa.value;
   const saldo = modalSaldoRoupa.value;
   const preço = modalPreço.value;
+  const tamanho = modalTamanho.value;
 
   if (await window.dialog.confirm(`dejesa atualizar a ${nome}`)) {
       await window.shiftAPI.atualizarRoupaPreload(
@@ -38,13 +40,15 @@ async function atualizarRoupa() {
       nome,
       cor,
       saldo,
-      preço
+      preço,
+      tamanho
     );
     modalIdRoupa.value = "";
     modalNomeRoupa.value = "";
     modalCorRoupa.value = "";
     modalSaldoRoupa.value = "";
     modalPreço.value = "";
+    modalTamanho.value = "";
     carregarLinhaRoupa();
     await window.dialog.alert(`${nome} atualizado com sucesso.`)
   }
@@ -62,6 +66,7 @@ async function excluirRoupa() {
     modalCorRoupa.value = "";
     modalSaldoRoupa.value = "";
     modalPreço.value = "";
+    modalTamanho.value = "";
     carregarLinhaRoupa();
     await window.dialog.alert(`item ${id} deletado com sucesso.`);
   }
@@ -72,11 +77,13 @@ async function inserirRoupa() {
   const cor = modalCorRoupa.value;
   const saldo = modalSaldoRoupa.value;
   const preço = modalPreço.value;
-  const returno = await window.shiftAPI.adicionarRoupasPreload(
+  const tamanho = modalTamanho.value;
+  await window.shiftAPI.adicionarRoupasPreload(
     nome,
     cor,
     saldo,
-    preço
+    preço,
+    tamanho
   );
   carregarLinhaRoupa();
   await window.dialog.alert(`${nome} adicionado(a) com sucesso!`);
@@ -118,10 +125,14 @@ function criarLinhaRoupa(roupa) {
   calcularPreço.textContent = roupa.preço;
   linha.appendChild(calcularPreço);
 
+  const calcularTamanho = document.createElement("td")
+  calcularTamanho.textContent = roupa.tamanho
+  linha.appendChild(calcularTamanho);
+
   const calcularBotao = document.createElement("td");
   const botao = document.createElement("button");
   botao.addEventListener("click", function () {
-    mostrarDetalhes(roupa.id, roupa.nome, roupa.cor, roupa.saldo, roupa.preço);
+    mostrarDetalhes(roupa.id, roupa.nome, roupa.cor, roupa.saldo, roupa.preço, roupa.tamanho);
   });
 
   const icone = document.createElement("i");
@@ -133,12 +144,13 @@ function criarLinhaRoupa(roupa) {
   tabelaRoupa.appendChild(linha);
 }
 
-function mostrarDetalhes(id, nome, cor, saldo, preço) {
+function mostrarDetalhes(id, nome, cor, saldo, preço, tamanho) {
   modalIdRoupa.value = id;
   modalNomeRoupa.value = nome;
   modalCorRoupa.value = cor;
   modalSaldoRoupa.value = saldo;
   modalPreço.value = preço;
+  modalTamanho.value = tamanho;
 }
 
 function limparRoupa() {
@@ -147,6 +159,7 @@ function limparRoupa() {
   modalCorRoupa.value = "";
   modalSaldoRoupa.value = "";
   modalPreço.value = "";
+  modalTamanho.value = "";
 }
 
 function verificarSalvar() {

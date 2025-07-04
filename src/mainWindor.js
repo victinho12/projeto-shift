@@ -75,7 +75,7 @@ function creatLoginWindow() {
   windowLogin = new BrowserWindow({
     width: 600,
     height: 500,
-        icon: path.join(__dirname,  'public', 'img', 'img.goku.jpg'),
+        icon: path.join(__dirname,  'public', 'img', 'SHIFT_logo.jpeg'),
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
     },
