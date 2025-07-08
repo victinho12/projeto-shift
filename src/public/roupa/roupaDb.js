@@ -98,7 +98,7 @@ async function buscarRoupasPorNomeDb(event, nome) {
   const result = await db.query(
     `SELECT * FROM public.roupas_estoque WHERE nome ILIKE $1 ORDER BY id`,
     [`%${nome}%`] // usa % para buscar qualquer parte do texto
-  );
+  ); 
   return result.rows;
 }
 
@@ -108,9 +108,6 @@ module.exports = {
   excluirRoupaDb,
   atualizarRoupaDb,
   buscarRoupasPorNomeDb,
-<<<<<<< HEAD
-  somar,
-=======
   mandarParaArea,
->>>>>>> 22e8afcaa7a2d01035966b496b004b3eec8608bd
+  somar
 };
