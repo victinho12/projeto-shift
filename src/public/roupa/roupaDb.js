@@ -1,5 +1,10 @@
 const db = require("../../db");
 
+function somar(a, b)
+{
+  const soma = a + b 
+  return soma
+}
 async function atualizarRoupaDb(event, id, nome, cor, saldo, preço, tamanho) {
   console.log(event);
   const result = await db.query(
@@ -44,4 +49,5 @@ module.exports = {
   excluirRoupaDb,
   atualizarRoupaDb,
   buscarRoupasPorNomeDb,
+  somar,
 };
