@@ -1,7 +1,6 @@
-
 body {
   font-family: Arial, sans-serif;
-  background: linear-gradient(135deg, #fafafd, #fafafc);
+  background: linear-gradient(135deg, #ffffff, #f5f5f5); /* branco para cinza claro */
   height: 100vh;
   margin: 0;
   display: flex;
@@ -17,6 +16,7 @@ h1 {
   text-transform: uppercase;
   letter-spacing: 1.5px;
   /* text-shadow: 0 0 10px rgba(0,0,0,0.4); */
+  color: #ba0c2f; /* vermelho institucional */
 }
 
 input {
@@ -32,14 +32,14 @@ input {
 }
 
 input:focus {
-  box-shadow: 0 0 8px #60a5fa;
+  box-shadow: 0 0 8px #d46c7b; /* vermelho claro no foco */
 }
 
 button#btn-entrar {
   width: 280px;
   padding: 12px;
   margin-top: 16px;
-  background-color: #2563eb;
+  background-color: #ba0c2f; /* vermelho principal */
   border: none;
   border-radius: 8px;
   font-weight: 700;
@@ -50,7 +50,7 @@ button#btn-entrar {
 }
 
 button#btn-entrar:hover {
-  background-color: #1e40af;
+  background-color: #7a0c24; /* vermelho escuro */
 }
 
 p#msg {
@@ -58,5 +58,6 @@ p#msg {
   font-weight: 600;
   min-height: 24px;
   text-align: center;
-  text-shadow: 0 0 3px rgba(0,0,0,0.3);
+  text-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+  color: #ba0c2f;
 }

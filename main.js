@@ -10,7 +10,10 @@ const path = require("path");
 const { creatLoginWindow } = require("./src/mainWindor.js");
 const { registrarListner } = require("./src/appListiners.js");
 
+app.setAppUserModelId('com.shiftstore.app'); // ESSENCIAL!!!
+
 function teste2() {
+  console.log('oiiiiiiii')
   new Notification({
     title: 'tomar',
     body: 'agua',
@@ -21,7 +24,7 @@ console.log("Processo Principal");
 
 app.whenReady().then(function () {
   creatLoginWindow();
-  teste2();
+  // teste2();
   registrarListner();
 
   app.on("activate", function () {

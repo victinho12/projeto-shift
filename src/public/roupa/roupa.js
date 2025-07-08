@@ -7,9 +7,9 @@ const modalIdRoupa = document.getElementById("roupa-id");
 const modalNomeRoupa = document.getElementById("roupa-nome");
 const modalCorRoupa = document.getElementById("roupa-cor");
 const modalSaldoRoupa = document.getElementById("roupa-saldo");
-const modalPreço = document.getElementById("roupa-preço");
+const modalPreco = document.getElementById("roupa-preço");
 const inputFiltro = document.getElementById("filtro-nome");
-const modalTamanho = document.getElementById("roupa-tamanho")
+const modalTamanho = document.getElementById("roupa-tamanho");
 // botões
 
 const limparTudo = document.getElementById("limpar-tudo");
@@ -17,76 +17,114 @@ const botaoSalvar = document.getElementById("btn-salvar");
 const botaoExcluir = document.getElementById("btn-excluir");
 const botaoLimpar = document.getElementById("btn-limpar");
 const btnBuscar = document.getElementById("btn-buscar");
-// variavel global que recebe lista de roupas
+const btnArea = document.getElementById("btn-mandar-area");
 
 // eventos de click
 limparTudo.addEventListener("click", limparRoupa);
 botaoSalvar.addEventListener("click", verificarSalvar);
 botaoExcluir.addEventListener("click", excluirRoupa);
 btnBuscar.addEventListener("click", buscarPorNome);
+btnArea.addEventListener("click", mandarParaArea);
 // funções de usuario
 
-async function atualizarRoupa() {
+async function mandarParaArea() {
   const id = modalIdRoupa.value;
-  const nome = modalNomeRoupa.value;
-  const cor = modalCorRoupa.value;
   const saldo = modalSaldoRoupa.value;
-  const preço = modalPreço.value;
-  const tamanho = modalTamanho.value;
+  const nome = modalNomeRoupa.value;
 
-  if (await window.dialog.confirm(`dejesa atualizar a ${nome}`)) {
+  if (!id || !saldo || !nome) {
+    await window.dialog.alert("insira todas as informações!!");
+  } else {
+    if (
+      await window.dialog.confirm(
+        `deseja adicionar ${saldo} ${nome} para a area de vendas? `
+      )
+    ) {
+      const result = await window.shiftAPI.mandarParaAreaPreload(id, saldo);
+      if (!result.success) {
+        await window.dialog.alert(
+          `Não foi possivel inserir, limite ja atingido`
+        );
+      } else {
+        await window.dialog.alert("transição feita com sucesso!");
+        carregarLinhaRoupa();
+        return { success: true };
+      }
+    }
+  }
+}
+
+async function atualizarRoupa() {
+  const roupa = {
+    id: modalIdRoupa.value,
+    nome: modalNomeRoupa.value,
+    cor: modalCorRoupa.value,
+    saldo: modalSaldoRoupa.value,
+    preco: modalPreco.value,
+    tamanho: modalTamanho.value,
+  };
+
+  if (Object.values(roupa).some((valor) => !valor)) {
+    await window.dialog.alert("Preencha todos os campos!");
+  } else {
+    if (await window.dialog.confirm(`Deseja atualizar a ${roupa.nome}?`)) {
       await window.shiftAPI.atualizarRoupaPreload(
-      id,
-      nome,
-      cor,
-      saldo,
-      preço,
-      tamanho
-    );
-    modalIdRoupa.value = "";
-    modalNomeRoupa.value = "";
-    modalCorRoupa.value = "";
-    modalSaldoRoupa.value = "";
-    modalPreço.value = "";
-    modalTamanho.value = "";
-    carregarLinhaRoupa();
-    await window.dialog.alert(`${nome} atualizado com sucesso.`)
+        roupa.id,
+        roupa.nome,
+        roupa.cor,
+        roupa.saldo,
+        roupa.preco,
+        roupa.tamanho
+      );
+      modalIdRoupa.value = "";
+      modalNomeRoupa.value = "";
+      modalCorRoupa.value = "";
+      modalSaldoRoupa.value = "";
+      modalPreco.value = "";
+      modalTamanho.value = "";
+      carregarLinhaRoupa();
+      await window.dialog.alert(`${roupa.nome} atualizado com sucesso.`);
+    }
   }
 }
 
 async function excluirRoupa() {
-  const nome = modalIdRoupa.value;
-  const id = modalIdRoupa.value;
-  console.log(id);
+  const roupa = {
+    nome: modalIdRoupa.value,
+    id: modalIdRoupa.value,
+  };
+  console.log(roupa.id);
 
-  if (await window.dialog.confirm(`Deseja deletar o item ${nome}`)) {
-    await window.shiftAPI.excluirRoupaPreload(id);
+  if (await window.dialog.confirm(`Deseja deletar o item ${roupa.nome}`)) {
+    await window.shiftAPI.excluirRoupaPreload(roupa.id);
     modalIdRoupa.value = "";
     modalNomeRoupa.value = "";
     modalCorRoupa.value = "";
     modalSaldoRoupa.value = "";
-    modalPreço.value = "";
+    modalPreco.value = "";
     modalTamanho.value = "";
     carregarLinhaRoupa();
-    await window.dialog.alert(`item ${id} deletado com sucesso.`);
+    await window.dialog.alert(`item ${roupa.id} deletado com sucesso.`);
   }
 }
 
 async function inserirRoupa() {
-  const nome = modalNomeRoupa.value;
-  const cor = modalCorRoupa.value;
-  const saldo = modalSaldoRoupa.value;
-  const preço = modalPreço.value;
-  const tamanho = modalTamanho.value;
+  const roupa = {
+    nome: modalNomeRoupa.value,
+    cor: modalCorRoupa.value,
+    saldo: modalSaldoRoupa.value,
+    preco: modalPreco.value,
+    tamanho: modalTamanho.value,
+  };
   await window.shiftAPI.adicionarRoupasPreload(
-    nome,
-    cor,
-    saldo,
-    preço,
-    tamanho
+    roupa.nome,
+    roupa.cor,
+    roupa.saldo,
+    roupa.preco,
+    roupa.tamanho
   );
   carregarLinhaRoupa();
-  await window.dialog.alert(`${nome} adicionado(a) com sucesso!`);
+  await window.dialog.alert(`${roupa.nome} adicionado(a) com sucesso!`);
 }
 
 async function carregarLinhaRoupa() {
@@ -121,18 +159,25 @@ function criarLinhaRoupa(roupa) {
   calcularSaldo.textContent = roupa.saldo;
   linha.appendChild(calcularSaldo);
 
-  const calcularPreço = document.createElement("td");
-  calcularPreço.textContent = roupa.preço;
-  linha.appendChild(calcularPreço);
+  const calcularPreco = document.createElement("td");
+  calcularPreco.textContent = roupa.preco;
+  linha.appendChild(calcularPreco);
 
-  const calcularTamanho = document.createElement("td")
-  calcularTamanho.textContent = roupa.tamanho
+  const calcularTamanho = document.createElement("td");
+  calcularTamanho.textContent = roupa.tamanho;
   linha.appendChild(calcularTamanho);
 
   const calcularBotao = document.createElement("td");
   const botao = document.createElement("button");
   botao.addEventListener("click", function () {
-    mostrarDetalhes(roupa.id, roupa.nome, roupa.cor, roupa.saldo, roupa.preço, roupa.tamanho);
+    mostrarDetalhes(
+      roupa.id,
+      roupa.nome,
+      roupa.cor,
+      roupa.saldo,
+      roupa.preco,
+      roupa.tamanho
+    );
   });
 
   const icone = document.createElement("i");
@@ -144,12 +189,12 @@ function criarLinhaRoupa(roupa) {
   tabelaRoupa.appendChild(linha);
 }
 
-function mostrarDetalhes(id, nome, cor, saldo, preço, tamanho) {
+function mostrarDetalhes(id, nome, cor, saldo, preco, tamanho) {
   modalIdRoupa.value = id;
   modalNomeRoupa.value = nome;
   modalCorRoupa.value = cor;
   modalSaldoRoupa.value = saldo;
-  modalPreço.value = preço;
+  modalPreco.value = preco;
   modalTamanho.value = tamanho;
 }
 
@@ -158,7 +203,7 @@ function limparRoupa() {
   modalNomeRoupa.value = "";
   modalCorRoupa.value = "";
   modalSaldoRoupa.value = "";
-  modalPreço.value = "";
+  modalPreco.value = "";
   modalTamanho.value = "";
 }
 
