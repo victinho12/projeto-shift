@@ -31,21 +31,8 @@ function modalAbrirRoupa(event) {
   }
 }
 
-// modal das entradas
-function modalAbrirEntrada(event) {
-  console.log("vou abrir entrada");
-  let mainWindow = getMainWindow();
-  let mainWindorUser = getMainWindowUser();
-  mainWindow = mainWindow || mainWindorUser;
-  if (mainWindow) {
-    crirarJanelaModal(mainWindow, "./src/public/entrada/entrada.html");
-  } else {
-    console.warn("não foi possivel abrir");
-  }
-}
 
 module.exports = {
   crirarJanelaModal,
   modalAbrirRoupa,
-  modalAbrirEntrada,
 };

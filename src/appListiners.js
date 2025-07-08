@@ -1,6 +1,6 @@
 const { ipcMain } = require("electron");
 
-const { modalAbrirRoupa, modalAbrirEntrada } = require("./windowModal");
+const { modalAbrirRoupa} = require("./windowModal");
 // importação de roupas
 const {
   adicionarRoupasDb,
@@ -8,17 +8,9 @@ const {
   excluirRoupaDb,
   atualizarRoupaDb,
   buscarRoupasPorNomeDb,
+  mandarParaArea,
 } = require("./public/roupa/roupaDb");
 
-// importação de entrada 
-const {
-  buscarEntradaDb,
-  adicionarEntradaDb,
-  atualizarEntradaDb,
-  deletarEntradaDb,
-  buscarPorNomeEntradaDb,
-
-} = require("./public/entrada/entradaDb")
 
 //login validar //
 const { validarLogin } = require("./public/login/loginDb");
@@ -33,25 +25,14 @@ const {mostrarAlert, mostrarConfirm} = require('./public/dialog/dialog')
 // AQUI SEPARA AS IMPORTAÇÃO, DAS FUNÇÕES DE CHAMADA DO SISTEMA NO BACK AND
 /////////////////////////////////////////////////////////////////////
 
-
-//registro de entrada
-function registrarEntrada(){
-  ipcMain.handle("buscar-entrada", buscarEntradaDb);
-  ipcMain.handle("adicionar-entrada", adicionarEntradaDb);
-  ipcMain.handle("atualizar-entrada", atualizarEntradaDb);
-  ipcMain.handle("deletar-entrada", deletarEntradaDb);
-  ipcMain.handle("buscar-nome-entrada", buscarPorNomeEntradaDb);
-
-
-}
-
 // registro de roupas
 function registrarRoupa() {
   ipcMain.handle("buscar-roupa", buscarRoupasDb);
   ipcMain.handle("adicionar-roupa", adicionarRoupasDb);
   ipcMain.handle("excluir-roupa", excluirRoupaDb);
   ipcMain.handle("atualizar-roupa", atualizarRoupaDb);
-  ipcMain.handle("buscar-nome",buscarRoupasPorNomeDb)
+  ipcMain.handle("buscar-nome",buscarRoupasPorNomeDb);
+  ipcMain.handle("mandar-area", mandarParaArea);
 }
 
 function registrarModal() {
@@ -61,7 +42,6 @@ function registrarModal() {
 function registrarJanelaPrincipal() {
   ipcMain.on("janela-user", createMainWindowUser);
   ipcMain.on("janela-principal", createMainWindow);
-  ipcMain.on("janela-entrada", modalAbrirEntrada);
 }
 
 function registrarvalidarLogin() {
@@ -75,7 +55,6 @@ function registrarDialog(){
 }
 
 function registrarListner() {
-  registrarEntrada();
   registrarRoupa();
   registrarModal();
   registrarvalidarLogin();

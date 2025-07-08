@@ -3,18 +3,19 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ROUPAS SHIFT</title>
+    <title>ROUPAS SHIFT ESTOQUE</title>
 
     <link rel="stylesheet" href="roupa.css" />
     <script src="https://unpkg.com/lucide@latest"></script>
   </head>
   <body>
-    <h1>CADASTRO DE ROUPAS</h1>
+    <h1>ESTOQUE</h1>
     <br />
-    <button id="limpar-tudo">
+    <!-- <button id="limpar-tudo">
       <i data-lucide="eraser"></i>
-    </button>
+    </button> -->
     <br />
+    <p>PESQUISAR ITEM </p>
     <input type="text" id="filtro-nome" placeholder="Digite o nome da roupa" />
     <button id="btn-buscar">Buscar</button>
     <br />
@@ -37,17 +38,46 @@
       <div id="modal">
         <h3>Edite os dados da roupa</h3>
 
-        <br />
-        <label>Id: <input type="text" id="roupa-id" /> </label>
+        <label>Id: <input type="text" id="roupa-id" readonly /> </label>
+        <label
+          >Nome:
+          <input type="text" id="roupa-nome" placeholder="Digite o item" />
+        </label>
+        <label>
+          COR:
+          <select id="roupa-cor">
+            <option value="">Selecione uma cor</option>
+            <option value="Branco">Branco</option>
+            <option value="Preto">Preto</option>
+            <option value="Cinza">Cinza</option>
+            <option value="Azul">Azul</option>
+            <option value="Vermelho">Vermelho</option>
+            <option value="Verde">Verde</option>
+            <option value="Amarelo">Amarelo</option>
+            <option value="Rosa">Rosa</option>
+            <option value="Bege">Bege</option>
+            <option value="Marrom">Marrom</option>
+            <option value="Laranja">Laranja</option>
+            <option value="Roxo">Roxo</option>
+          </select>
+        </label>
 
-        <label>Nome: <input type="text" id="roupa-nome" /> </label>
-
-        <label>COR: <input type="text" id="roupa-cor" /> </label>
-
-        <label>SALDO: <input type="number" id="roupa-saldo" /> </label>
-
-        <label>PREÇO: <input type="number" id="roupa-preço" /> </label>
-
+        <label>
+          SALDO:
+          <select id="roupa-saldo">
+            <option value="">Selecione</option>
+            <!-- opções de 1 a 20 -->
+            <script>
+              for (let i = 1; i <= 20; i++) {
+                document.write(`<option value="${i}">${i}</option>`);
+              }
+            </script>
+          </select>
+        </label>
+        <label
+          >PREÇO:
+          <input type="number" id="roupa-preço" placeholder="Preço do item" />
+        </label>
         <label
           ><select id="roupa-tamanho">
             <option value="PP">PP</option>
@@ -58,8 +88,20 @@
           </select>
         </label>
 
-        <button id="btn-salvar"><i data-lucide="save"></i></button>
-        <button id="btn-excluir"><i data-lucide="trash-2"></i></button>
+        <div id="modal-buttons">
+          <button id="limpar-tudo" title="Adicionar">
+            <i data-lucide="plus"></i>
+          </button>
+          <button id="btn-salvar" title="Salvar item">
+            <i data-lucide="save"></i>
+          </button>
+          <button id="btn-excluir" title="Excluir item do sistema">
+            <i data-lucide="trash-2"></i>
+          </button>
+          <button id="btn-mandar-area" title="Mandar item para área">
+            <i data-lucide="shopping-bag"></i>
+          </button>
+        </div>
       </div>
     </div>
 

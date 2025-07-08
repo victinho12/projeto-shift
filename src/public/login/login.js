@@ -11,14 +11,16 @@ async function verificarlogin() {
     senha.value
   );
   if (!retur) {
-    msg.textContent = "Senha ou nome de usuario incorreto";
-    msg.style.color = "red";
+    await window.dialog.alert("Preencha todas as informações");
   } else {
     if (retur.perfil === "adm") {
       localStorage.setItem("perfil", retur.perfil);
+      localStorage.setItem("nome", retur.nome);
+      await window.dialog.alert("Entrando");
       await window.abrirJanela.abrirJanelaPrincipal();
     } else {
       localStorage.setItem("perfil", retur.perfil);
+      localStorage.setItem("nome", retur.nome);
       await window.abrirJanela.abrirJanelaPrincipalUser();
     }
   }
