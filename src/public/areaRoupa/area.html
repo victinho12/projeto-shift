@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="area.css" />
+    <title>Area de vendas</title>
+  </head>
+  <body>
+    <h1>ROUPAS EM AREA</h1>
+    <br />
+    <p>PESQUISAR ITEM</p>
+    <input type="text" id="filtro-nome" placeholder="Digite o nome da roupa" />
+    <button id="btn-buscar">Buscar</button>
+    <div class="container">
+      <table id="areaTable">
+        <thead>
+          <tr>
+            <th>NOME</th>
+            <th>QUANTIDADE</th>
+            <th>TAMANHO</th>
+            <th>PREÇO</th>
+            <th>COR</th>
+            <th>EDITAR</th>
+          </tr>
+        </thead>
+        <tbody id="areaTableDados"></tbody>
+      </table>
+      <div id="modal">
+        <h3>EDITE OS DAS PARA AREA DE VENDAS</h3>
+
+        <label>ID <input type="text" id="id-area" readonly /></label>
+        <label>NOME <input type="text" id="nome" /></label>
+        <label
+          >QUANTIDADE
+          <select id="roupa-saldo">
+            <option>Selecione</option>
+            <!-- opções de 1 a 20 -->
+            <script>
+              for (let i = 1; i <= 20; i++) {
+                document.write(`<option value="${i}">${i}</option>`);
+              }
+            </script>
+          </select>
+        </label>
+        <label
+          >TAMANHO
+          <select id="roupa-tamanho">
+            <option value="PP">PP</option>
+            <option value="P">P</option>
+            <option value="M">M</option>
+            <option value="G">G</option>
+            <option value="GG">GG</option>
+          </select>
+        </label>
+        <label
+          >PREÇO
+          <input id="preço" />
+        </label>
+        <label>
+          COR:
+          <select id="roupa-cor">
+            <option value="">Selecione uma cor</option>
+            <option value="Branco">Branco</option>
+            <option value="Preto">Preto</option>
+            <option value="Cinza">Cinza</option>
+            <option value="Azul">Azul</option>
+            <option value="Vermelho">Vermelho</option>
+            <option value="Verde">Verde</option>
+            <option value="Amarelo">Amarelo</option>
+            <option value="Rosa">Rosa</option>
+            <option value="Bege">Bege</option>
+            <option value="Marrom">Marrom</option>
+            <option value="Laranja">Laranja</option>
+            <option value="Roxo">Roxo</option>
+          </select>
+        </label>
+        <div class="modal-buttons">
+          <button id="btn-limpar"></button>
+          <button id="btn-excluir"></button>
+          <button id="btn-mandar-estoque"></button>
+          <button id="btn-venda"></button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      lucide.createIcons();
+    </script>
+    <script src="area.js"></script>
+  </body>
+</html>

@@ -1,6 +1,7 @@
 const { ipcMain } = require("electron");
+// janela principaç do meu index
+const { modalAbrirRoupa, modalAbrirJanelaArea} = require("./windowModal");
 
-const { modalAbrirRoupa} = require("./windowModal");
 // importação de roupas
 const {
   adicionarRoupasDb,
@@ -10,6 +11,10 @@ const {
   buscarRoupasPorNomeDb,
   mandarParaArea,
 } = require("./public/roupa/roupaDb");
+
+//importação de area de vendas || roupas que estão expostas
+
+const {buscarRoupaArea} = require('./public/areaRoupa/areaDb')
 
 
 //login validar //
@@ -25,6 +30,10 @@ const {mostrarAlert, mostrarConfirm} = require('./public/dialog/dialog')
 // AQUI SEPARA AS IMPORTAÇÃO, DAS FUNÇÕES DE CHAMADA DO SISTEMA NO BACK AND
 /////////////////////////////////////////////////////////////////////
 
+function registarRoupasArea(){
+  ipcMain.handle('buscar-roupa-area', buscarRoupaArea);
+}
+
 // registro de roupas
 function registrarRoupa() {
   ipcMain.handle("buscar-roupa", buscarRoupasDb);
@@ -37,6 +46,7 @@ function registrarRoupa() {
 
 function registrarModal() {
   ipcMain.on("janela-roupa", modalAbrirRoupa);
+  ipcMain.on("janela-area", modalAbrirJanelaArea);
 }
 
 function registrarJanelaPrincipal() {
@@ -60,6 +70,7 @@ function registrarListner() {
   registrarvalidarLogin();
   registrarJanelaPrincipal();
   registrarDialog();
+  registarRoupasArea();
 }
 
 module.exports = {

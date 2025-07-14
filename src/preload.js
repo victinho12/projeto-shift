@@ -3,6 +3,15 @@ const { app, contextBridge, ipcRenderer } = require("electron");
 console.log("Processo de renderização");
 
 ///////////////////////////////
+//espaço para roupa em area
+///////////////////////////////
+
+function buascarRoupasArea(){
+  return ipcRenderer.invoke('buscar-roupas-area')
+  
+}
+
+///////////////////////////////
 //espaço para roupa
 ///////////////////////////////
 
@@ -46,6 +55,10 @@ contextBridge.exposeInMainWorld("shiftAPI", {
   buscarRoupasPorNomePreload: buscarRoupasPorNomePreload,
   mandarParaAreaPreload,
 
+  // roupas em area
+  
+  buascarRoupasArea,
+
   // login
   validarLoginPreload: validarLoginPreload,
 });
@@ -63,11 +76,15 @@ function abrirJanelaPrincipal() {
 function abrirJanelaPrincipalUser(){
   ipcRenderer.send("janela-user")
 }
+function abrirJanelaAreaRoupa(){
+  ipcRenderer.send("janela-area");
+}
 
 contextBridge.exposeInMainWorld("abrirJanela", {
   abrirJanelaRoupa: abrirJanelaRoupa,
   abrirJanelaPrincipal: abrirJanelaPrincipal,
   abrirJanelaPrincipalUser:abrirJanelaPrincipalUser,
+  abrirJanelaAreaRoupa: abrirJanelaAreaRoupa,
 });
 
 
