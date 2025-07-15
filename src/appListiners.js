@@ -31,7 +31,7 @@ const {mostrarAlert, mostrarConfirm} = require('./public/dialog/dialog')
 /////////////////////////////////////////////////////////////////////
 
 function registarRoupasArea(){
-  ipcMain.handle('buscar-roupa-area', buscarRoupaArea);
+  ipcMain.handle('buscar-roupas-area', buscarRoupaArea);
 }
 
 // registro de roupas

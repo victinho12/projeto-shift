@@ -3,7 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <link rel="stylesheet" href="area.css" />
+    <script src="https://unpkg.com/lucide@latest"></script>
     <title>Area de vendas</title>
   </head>
   <body>
@@ -45,7 +47,7 @@
         </label>
         <label
           >TAMANHO
-          <select id="roupa-tamanho">
+          <select id="tamanho">
             <option value="PP">PP</option>
             <option value="P">P</option>
             <option value="M">M</option>
@@ -76,10 +78,11 @@
           </select>
         </label>
         <div class="modal-buttons">
-          <button id="btn-limpar"></button>
-          <button id="btn-excluir"></button>
-          <button id="btn-mandar-estoque"></button>
-          <button id="btn-venda"></button>
+          <button id="btn-limpar"><i data-lucide="plus"></i></button>
+          
+          <button id="btn-excluir"><i data-lucide="trash-2"></i></button>
+          <button id="btn-mandar-estoque"><i data-lucide="box"></i></button>
+          <button id="btn-venda"> <i data-lucide="banknote-arrow-up"></i></button>
         </div>
       </div>
     </div>
