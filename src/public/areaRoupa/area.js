@@ -86,6 +86,11 @@ async function carregarLinhaArea(){
 
 }
 
+function criarLinhaSelectNome(nomeRoupa){
+  const option = document.createElement("option");
+  
+}
+
 function mostrarDetalhes(id, nome, quantidade, tamanho, preco, cor) {
   idArea.value = id;
   nomeArea.value = nome; 
