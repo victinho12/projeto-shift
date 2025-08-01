@@ -128,7 +128,7 @@ async function inserirRoupa() {
 }
 
 async function carregarLinhaRoupa() {
-  const listaRoupa = await window.buscarRoupasPreload();
+  const listaRoupa = await window.shiftAPI.buscarRoupasPreload();
   tabelaRoupa.innerHTML = "";
   listaRoupa.forEach(criarLinhaRoupa);
 

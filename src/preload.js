@@ -6,21 +6,31 @@ console.log("Processo de renderização");
 //espaço para roupa em area
 ///////////////////////////////
 
-function buascarRoupasArea(){
-  return ipcRenderer.invoke('buscar-roupas-area')
-  
+function buascarRoupasArea() {
+  return ipcRenderer.invoke("buscar-roupas-area");
+}
+function mandarParaEstoque(id, quantidade) {
+  return ipcRenderer.invoke("add-roupa-estoque",id, quantidade);
 }
 
 ///////////////////////////////
 //espaço para roupa
 ///////////////////////////////
 
-function mandarParaAreaPreload(id, quantidade){
+function mandarParaAreaPreload(id, quantidade) {
   return ipcRenderer.invoke("mandar-area", id, quantidade);
 }
 
 function atualizarRoupaPreload(id, nome, cor, saldo, preco, tamanho) {
-  return ipcRenderer.invoke("atualizar-roupa", id, nome, cor, saldo, preco, tamanho);
+  return ipcRenderer.invoke(
+    "atualizar-roupa",
+    id,
+    nome,
+    cor,
+    saldo,
+    preco,
+    tamanho
+  );
 }
 
 function excluirRoupaPreload(id) {
@@ -30,13 +40,23 @@ function excluirRoupaPreload(id) {
 function buscarRoupasPorNomePreload(nome) {
   return ipcRenderer.invoke("buscar-nome", nome);
 }
+function buscarAreaRoupa() {
+  return ipcRenderer.invoke("buscar-area");
+}
 
 function buscarRoupasPreload() {
   return ipcRenderer.invoke("buscar-roupa");
 }
 
 function adicionarRoupasPreload(nome, cor, saldo, preco, tamanho) {
-  return ipcRenderer.invoke("adicionar-roupa", nome, cor, saldo, preco, tamanho);
+  return ipcRenderer.invoke(
+    "adicionar-roupa",
+    nome,
+    cor,
+    saldo,
+    preco,
+    tamanho
+  );
 }
 ///////////////////////////////
 //espaço para validar login de usuario
@@ -54,10 +74,12 @@ contextBridge.exposeInMainWorld("shiftAPI", {
   atualizarRoupaPreload: atualizarRoupaPreload,
   buscarRoupasPorNomePreload: buscarRoupasPorNomePreload,
   mandarParaAreaPreload,
+  buscarAreaRoupa,
 
   // roupas em area
-  
+
   buascarRoupasArea,
+  mandarParaEstoque,
 
   // login
   validarLoginPreload: validarLoginPreload,
@@ -73,34 +95,33 @@ function abrirJanelaRoupa() {
 function abrirJanelaPrincipal() {
   ipcRenderer.send("janela-principal");
 }
-function abrirJanelaPrincipalUser(){
-  ipcRenderer.send("janela-user")
+function abrirJanelaPrincipalUser() {
+  ipcRenderer.send("janela-user");
 }
-function abrirJanelaAreaRoupa(){
+function abrirJanelaAreaRoupa() {
   ipcRenderer.send("janela-area");
 }
 
 contextBridge.exposeInMainWorld("abrirJanela", {
   abrirJanelaRoupa: abrirJanelaRoupa,
   abrirJanelaPrincipal: abrirJanelaPrincipal,
-  abrirJanelaPrincipalUser:abrirJanelaPrincipalUser,
+  abrirJanelaPrincipalUser: abrirJanelaPrincipalUser,
   abrirJanelaAreaRoupa: abrirJanelaAreaRoupa,
 });
-
 
 ///////////////////////////////
 //espaço para janelas de dialog
 ///////////////////////////////
 
-function alert(mensagem){
- return ipcRenderer.invoke("abrir-dialog-alert", mensagem)
+function alert(mensagem) {
+  return ipcRenderer.invoke("abrir-dialog-alert", mensagem);
 }
 
-function confirm(mensagem){
- return ipcRenderer.invoke("abrir-dialog-confirm", mensagem)
+function confirm(mensagem) {
+  return ipcRenderer.invoke("abrir-dialog-confirm", mensagem);
 }
 
-contextBridge.exposeInMainWorld("dialog",{
+contextBridge.exposeInMainWorld("dialog", {
   alert,
-  confirm
-})  
+  confirm,
+});

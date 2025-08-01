@@ -20,11 +20,16 @@
   "homepage": "https://github.com/victinho12/projeto-shift#readme",
   "devDependencies": {
     "electron": "^36.4.0",
-    "jest": "^30.0.4"
+    "jest": "^30.0.4",
+    "jquery": "^3.7.1"
   },
   "dependencies": {
+    "chosen": "^0.0.2",
+    "electron-reload": "^2.0.0-alpha.1",
+    "jQuery": "^1.7.4",
     "lucide": "^0.515.0",
     "lucide-static": "^0.517.0",
-    "pg": "^8.16.0"
+    "pg": "^8.16.0",
+    "select": "^1.1.2"
   }
 }

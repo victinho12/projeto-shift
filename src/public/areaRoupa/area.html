@@ -5,6 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <link rel="stylesheet" href="area.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
     <script src="https://unpkg.com/lucide@latest"></script>
     <title>Area de vendas</title>
   </head>
@@ -32,10 +43,13 @@
         <h3>EDITE OS DAS PARA AREA DE VENDAS</h3>
 
         <label>ID <input type="text" id="id-area" readonly /></label>
-        <label>NOME <select id="nome">
-          <option>Selecionar</option>
-        </select>
-        <label  
+        <label>NOME<select class="selectPesquisa" id="nome"></select> </label>
+        <script>
+          $(document).ready(function () {
+            $(".selectPesquisa").select2();
+          });
+        </script>
+        <label
           >QUANTIDADE
           <select id="roupa-saldo">
             <option>Selecione</option>
@@ -81,10 +95,12 @@
         </label>
         <div class="modal-buttons">
           <button id="btn-limpar"><i data-lucide="plus"></i></button>
-          
+
           <button id="btn-excluir"><i data-lucide="trash-2"></i></button>
           <button id="btn-mandar-estoque"><i data-lucide="box"></i></button>
-          <button id="btn-venda"> <i data-lucide="banknote-arrow-up"></i></button>
+          <button id="btn-venda">
+            <i data-lucide="banknote-arrow-up"></i>
+          </button>
         </div>
       </div>
     </div>

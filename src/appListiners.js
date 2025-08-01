@@ -10,12 +10,11 @@ const {
   atualizarRoupaDb,
   buscarRoupasPorNomeDb,
   mandarParaArea,
+  buscarAreaDbRoupas,
 } = require("./public/roupa/roupaDb");
 
 //importação de area de vendas || roupas que estão expostas
-
-const {buscarRoupaArea} = require('./public/areaRoupa/areaDb')
-
+const { buscarRoupaArea, mandarParaEstoque } = require("./public/AreaRoupa/areaDb");
 
 //login validar //
 const { validarLogin } = require("./public/login/loginDb");
@@ -24,7 +23,7 @@ const { validarLogin } = require("./public/login/loginDb");
 const { createMainWindow, createMainWindowUser } = require("./mainWindor");
 
 // janela de dialogo
-const {mostrarAlert, mostrarConfirm} = require('./public/dialog/dialog')
+const {mostrarAlert, mostrarConfirm} = require('./public/dialog/dialog');
 
 //////////////////////////////////////////////////////////////////////
 // AQUI SEPARA AS IMPORTAÇÃO, DAS FUNÇÕES DE CHAMADA DO SISTEMA NO BACK AND
@@ -32,6 +31,7 @@ const {mostrarAlert, mostrarConfirm} = require('./public/dialog/dialog')
 
 function registarRoupasArea(){
   ipcMain.handle('buscar-roupas-area', buscarRoupaArea);
+  ipcMain.handle('add-roupa-estoque', mandarParaEstoque);
 }
 
 // registro de roupas
@@ -42,6 +42,7 @@ function registrarRoupa() {
   ipcMain.handle("atualizar-roupa", atualizarRoupaDb);
   ipcMain.handle("buscar-nome",buscarRoupasPorNomeDb);
   ipcMain.handle("mandar-area", mandarParaArea);
+ ipcMain.handle("mostrar-area-roupa", buscarAreaDbRoupas);
 }
 
 function registrarModal() {
