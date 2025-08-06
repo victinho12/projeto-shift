@@ -1,0 +1,133 @@
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", sans-serif;
+}
+
+#filtro-nome {
+  width: 200px;
+  display: inline-block;
+  margin-right: 10px;
+}
+
+body {
+  background-color: #fdfdfd; /* fundo claro Renner */
+  padding: 20px;
+  color: #1a1a1a;
+}
+
+/* Título */
+h1 {
+  text-align: center;
+  color: #ba0c2f; /* vermelho Renner */
+  margin-bottom: 20px;
+}
+
+/* Botões */
+button {
+  background-color: #ba0c2f; /* vermelho Renner */
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+button:hover {
+  background-color: #7a0c24; /* vermelho mais escuro */
+}
+
+input,
+select {
+  padding: 8px;
+  margin: 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 100%;
+}
+
+/* Container geral */
+.container {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start; /* alinha tudo à esquerda */
+  gap: 60px; /* aumenta o espaço entre tabela e modal */
+  flex-wrap: wrap;
+}
+
+/* Tabela */
+table {
+  width: 100%;
+  max-width: 700px;
+  border-collapse: collapse;
+  background-color: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+th,
+td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+th {
+  background-color: #ba0c2f; /* vermelho Renner */
+  color: white;
+}
+
+/* Modal */
+#modal {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 300px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  height: fit-content;
+
+  position: sticky;
+  top: 10px; /* distância do topo ao rolar */
+}
+#modal-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+#modal h3 {
+  color: #ba0c2f; /* vermelho Renner */
+  text-align: center;
+}
+
+label {
+  font-size: 14px;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  table {
+    max-width: 100%;
+  }
+
+  #modal {
+    width: 90%;
+  }
+}

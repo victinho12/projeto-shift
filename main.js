@@ -10,14 +10,16 @@ const path = require("path");
 const { creatLoginWindow } = require("./src/mainWindor.js");
 const { registrarListner } = require("./src/appListiners.js");
 
-app.setAppUserModelId('com.shiftstore.app'); // ESSENCIAL!!!
+app.setAppUserModelId("com.shiftstore.app"); // ESSENCIAL!!!
 
-function teste2() {
-  console.log('oiiiiiiii')
-  new Notification({
-    title: 'tomar',
-    body: 'agua',
-  }).show();
+if (process.env.NODE_ENV !== 'production') {
+  try {
+    require('electron-reload')(__dirname, {
+      electron: require(`${__dirname}/node_modules/electron`)
+    });
+  } catch (err) {
+    console.error('electron-reload não foi carregado:', err);
+  }
 }
 
 console.log("Processo Principal");

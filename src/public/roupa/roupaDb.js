@@ -1,6 +1,7 @@
 const db = require("../../db");
+
 async function mandarParaArea(event, id, quantidade) {
-  const limiteArea = 20
+  const limiteArea = 20;
   const resultado = await db.query(
     `select COALESCE(sum(quantidade), 0) as total from public.roupas_expostas where id_roupa = $1`,
     [id]
@@ -32,8 +33,8 @@ async function mandarParaArea(event, id, quantidade) {
 
       // 3. Insere se ainda não existe
       await db.query(
-        `INSERT INTO public.roupas_expostas (id_roupa, quantidade, tamanho, preco)
-       SELECT e.id, $2, e.tamanho, e.preco
+        `INSERT INTO public.roupas_expostas (id_roupa, quantidade, tamanho, preco, cor)
+       SELECT e.id, $2, e.tamanho, e.preco, e.cor
        FROM public.roupas_estoque e
        WHERE e.id = $1
          AND NOT EXISTS (
@@ -49,16 +50,11 @@ async function mandarParaArea(event, id, quantidade) {
       console.error("Erro ao transferir:", error.message);
       return { success: false, error: error.message };
     }
-  }else{
-    return {success: false, error:"limite de roupas em area atingida"};
+  } else {
+    return { success: false, error: "limite de roupas em area atingida" };
   }
 }
 
-function somar(a, b)
-{
-  const soma = a + b 
-  return soma
-}
 async function atualizarRoupaDb(event, id, nome, cor, saldo, preço, tamanho) {
   console.log(event);
   const result = await db.query(
@@ -93,12 +89,19 @@ async function buscarRoupasDb() {
 
   return result.rows;
 }
+async function buscarAreaDbRoupas() {
+  const result = await db.query(
+    "select * from public.roupas_estoque order by id"
+  );
+
+  return result.rows;
+}
 
 async function buscarRoupasPorNomeDb(event, nome) {
   const result = await db.query(
     `SELECT * FROM public.roupas_estoque WHERE nome ILIKE $1 ORDER BY id`,
     [`%${nome}%`] // usa % para buscar qualquer parte do texto
-  ); 
+  );
   return result.rows;
 }
 
@@ -109,5 +112,5 @@ module.exports = {
   atualizarRoupaDb,
   buscarRoupasPorNomeDb,
   mandarParaArea,
-  somar
+  buscarAreaDbRoupas,
 };
