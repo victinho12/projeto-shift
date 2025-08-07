@@ -21,13 +21,14 @@ botaoMandarEstoque.addEventListener("click", mandarParaEstoque);
 //funções que tem as funcionabilidades do sistema, aqui temos todo o crud
 
 async function mandarParaEstoque() {
-  const id = nomeArea.value;
-  const result = id.length[0];
-  const quantidade = quantidadeArea.value;
-
-  await window.shiftAPI.mandarParaEstoque(result, quantidade);
+  const id = parseInt(nomeArea.value);
+  // const result = id.length[0];
+  const quantidade = parseInt(quantidadeArea.value);
+  console.log(id)
+  await window.shiftAPI.mandarParaEstoque(id, quantidade);
   carregarLinhaArea();
 }
+
 
 // funções que adicionan os selects e a tabela de roupas que estão em area, o codigo desgraçado
 function criarLinhaArea(area) {
@@ -104,7 +105,7 @@ function criarLinhaSelectNome(nomeRoupa) {
 }
 async function carregarSelect() {
   const listaAluno = await window.shiftAPI.buscarRoupasPreload();
-  console.log(listaAluno);
+  // console.log(listaAluno);
   listaAluno.forEach(criarLinhaSelectNome);
   if (listaAluno.length < 0) {
     nomeArea.textContent = "sem dados";

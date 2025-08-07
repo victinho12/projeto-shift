@@ -1,113 +1,108 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link rel="stylesheet" href="area.css" />
-    <link
-      href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
-      rel="stylesheet"
-    />
-    <link
-      href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
-      rel="stylesheet"
-    />
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <title>Area de vendas</title>
-  </head>
-  <body>
-    <h1>ROUPAS EM AREA</h1>
-    <br />
-    <p>PESQUISAR ITEM</p>
-    <input type="text" id="filtro-nome" placeholder="Digite o nome da roupa" />
-    <button id="btn-buscar">Buscar</button>
-    <div class="container">
-      <table id="areaTable">
-        <thead>
-          <tr>
-            <th>NOME</th>
-            <th>QUANTIDADE</th>
-            <th>TAMANHO</th>
-            <th>PREÇO</th>
-            <th>COR</th>
-            <th>EDITAR</th>
-          </tr>
-        </thead>
-        <tbody id="areaTableDados"></tbody>
-      </table>
-      <div id="modal">
-        <h3>EDITE OS DAS PARA AREA DE VENDAS</h3>
+  <link rel="stylesheet" href="area.css" />
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
-        <label>ID <input type="text" id="id-area" readonly /></label>
-        <label>NOME<select class="selectPesquisa" id="nome"></select> </label>
-        <script>
-          $(document).ready(function () {
-            $(".selectPesquisa").select2();
-          });
-        </script>
-        <label
-          >QUANTIDADE
-          <select id="roupa-saldo">
-            <option>Selecione</option>
-            <!-- opções de 1 a 20 -->
-            <script>
-              for (let i = 1; i <= 20; i++) {
-                document.write(`<option value="${i}">${i}</option>`);
-              }
-            </script>
-          </select>
-        </label>
-        <label
-          >TAMANHO
-          <select id="tamanho">
-            <option value="PP">PP</option>
-            <option value="P">P</option>
-            <option value="M">M</option>
-            <option value="G">G</option>
-            <option value="GG">GG</option>
-          </select>
-        </label>
-        <label
-          >PREÇO
-          <input id="preço" />
-        </label>
-        <label>
-          COR:
-          <select id="roupa-cor">
-            <option value="">Selecione uma cor</option>
-            <option value="Branco">Branco</option>
-            <option value="Preto">Preto</option>
-            <option value="Cinza">Cinza</option>
-            <option value="Azul">Azul</option>
-            <option value="Vermelho">Vermelho</option>
-            <option value="Verde">Verde</option>
-            <option value="Amarelo">Amarelo</option>
-            <option value="Rosa">Rosa</option>
-            <option value="Bege">Bege</option>
-            <option value="Marrom">Marrom</option>
-            <option value="Laranja">Laranja</option>
-            <option value="Roxo">Roxo</option>
-          </select>
-        </label>
-        <div class="modal-buttons">
-          <button id="btn-limpar"><i data-lucide="plus"></i></button>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <title>Area de vendas</title>
+</head>
 
-          <button id="btn-excluir"><i data-lucide="trash-2"></i></button>
-          <button id="btn-mandar-estoque"><i data-lucide="box"></i></button>
-          <button id="btn-venda">
-            <i data-lucide="banknote-arrow-up"></i>
-          </button>
-        </div>
+<body>
+
+  <h1>ROUPAS EM AREA</h1>
+  <br />
+  <p>PESQUISAR ITEM</p>
+  <input type="text" id="filtro-nome" placeholder="Digite o nome da roupa" />
+  <button id="btn-buscar">Buscar</button>
+  <div class="container">
+    <table id="areaTable">
+      <thead>
+        <tr>
+          <th>NOME</th>
+          <th>QUANTIDADE</th>
+          <th>TAMANHO</th>
+          <th>PREÇO</th>
+          <th>COR</th>
+          <th>EDITAR</th>
+        </tr>
+      </thead>
+      <tbody id="areaTableDados"></tbody>
+    </table>
+    <div id="modal">
+      <h3>EDITE OS DAS PARA AREA DE VENDAS</h3>
+
+      <label>ID <input type="text" id="id-area" readonly /></label>
+      <label>NOME<select class="selectPesquisa" id="nome"></select> </label>
+      <script>
+        $(document).ready(function () {
+          $(".selectPesquisa").select2();
+        });
+      </script>
+      <label>QUANTIDADE
+        <select id="roupa-saldo">
+          <option>Selecione</option>
+          <!-- opções de 1 a 20 -->
+          <script>
+            for (let i = 1; i <= 20; i++) {
+              document.write(`<option value="${i}">${i}</option>`);
+            }
+          </script>
+        </select>
+      </label>
+      <label>TAMANHO
+        <select id="tamanho">
+          <option value="PP">PP</option>
+          <option value="P">P</option>
+          <option value="M">M</option>
+          <option value="G">G</option>
+          <option value="GG">GG</option>
+        </select>
+      </label>
+      <label>PREÇO
+        <input id="preço" />
+      </label>
+      <label>
+        COR:
+        <select id="roupa-cor">
+          <option value="">Selecione uma cor</option>
+          <option value="Branco">Branco</option>
+          <option value="Preto">Preto</option>
+          <option value="Cinza">Cinza</option>
+          <option value="Azul">Azul</option>
+          <option value="Vermelho">Vermelho</option>
+          <option value="Verde">Verde</option>
+          <option value="Amarelo">Amarelo</option>
+          <option value="Rosa">Rosa</option>
+          <option value="Bege">Bege</option>
+          <option value="Marrom">Marrom</option>
+          <option value="Laranja">Laranja</option>
+          <option value="Roxo">Roxo</option>
+        </select>
+      </label>
+      <div class="modal-buttons">
+        <button id="btn-limpar"><i data-lucide="plus"></i></button>
+
+        <button id="btn-excluir"><i data-lucide="trash-2"></i></button>
+        <button id="btn-mandar-estoque"><i data-lucide="box"></i></button>
+        <button id="btn-venda">
+          <i data-lucide="banknote-arrow-up"></i>
+        </button>
       </div>
     </div>
+  </div>
 
-    <script>
-      lucide.createIcons();
-    </script>
-    <script src="area.js"></script>
-  </body>
+  <script>
+    lucide.createIcons();
+  </script>
+  <script src="area.js"></script>
+</body>
+
 </html>
