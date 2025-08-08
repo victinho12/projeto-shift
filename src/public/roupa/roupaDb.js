@@ -7,53 +7,53 @@ async function mandarParaArea(event, id, quantidade) {
     [id]
   );
 
-  if (resultado.rows[0].total + quantidade <= limiteArea) {
-    try {
-      await db.query("BEGIN");
+  // if (resultado.rows[0].total + quantidade <= limiteArea) {
+  try {
+    await db.query("BEGIN");
 
-      // 1. Subtrai do estoque
-      const res1 = await db.query(
-        `UPDATE public.roupas_estoque
+    // 1. Subtrai do estoque
+    const res1 = await db.query(
+      `UPDATE public.roupas_estoque
        SET saldo = saldo - $2
        WHERE id = $1 AND saldo >= $2;`,
-        [id, quantidade]
-      );
+      [id, quantidade]
+    );
 
-      if (res1.rowCount === 0) {
-        throw new Error("Estoque insuficiente ou item não encontrado.");
-      }
+    if (res1.rowCount === 0) {
+      throw new Error("Estoque insuficiente ou item não encontrado.");
+    }
 
-      // 2. Atualiza quantidade na área de vendas
-      await db.query(
-        `UPDATE public.roupas_expostas
+    // 2. Atualiza quantidade na área de vendas
+    await db.query(
+      `UPDATE public.roupas_expostas
        SET quantidade = quantidade + $2
        WHERE id_roupa = $1;`,
-        [id, quantidade]
-      );
+      [id, quantidade]
+    );
 
-      // 3. Insere se ainda não existe
-      await db.query(
-        `INSERT INTO public.roupas_expostas (id_roupa, quantidade, tamanho, preco, cor)
+    // 3. Insere se ainda não existe
+    await db.query(
+      `INSERT INTO public.roupas_expostas (id_roupa, quantidade, tamanho, preco, cor)
        SELECT e.id, $2, e.tamanho, e.preco, e.cor
        FROM public.roupas_estoque e
        WHERE e.id = $1
          AND NOT EXISTS (
            SELECT 1 FROM public.roupas_expostas r WHERE r.id_roupa = e.id
          );`,
-        [id, quantidade]
-      );
+      [id, quantidade]
+    );
 
-      await db.query("COMMIT");
-      return { success: true };
-    } catch (error) {
-      await db.query("ROLLBACK");
-      console.error("Erro ao transferir:", error.message);
-      return { success: false, error: error.message };
-    }
-  } else {
-    return { success: false, error: "limite de roupas em area atingida" };
+    await db.query("COMMIT");
+    return { success: true };
+  } catch (error) {
+    await db.query("ROLLBACK");
+    console.error("Erro ao transferir:", error.message);
+    return { success: false, error: error.message };
   }
-}
+} //else {
+//   return { success: false, error: "limite de roupas em area atingida" };
+//}
+
 
 async function atualizarRoupaDb(event, id, nome, cor, saldo, preço, tamanho) {
   console.log(event);

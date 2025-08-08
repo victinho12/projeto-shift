@@ -9,6 +9,7 @@ const quantidadeArea = document.getElementById("roupa-saldo");
 const tamanhoArea = document.getElementById("tamanho");
 const precoArea = document.getElementById("preço");
 const corArea = document.getElementById("roupa-cor");
+const idDoItem = document.getElementById("id_item");
 // botões
 const botaoLimpar = document.getElementById("btn-limpar");
 const botaoExcluir = document.getElementById("btn-excluir");
@@ -21,10 +22,11 @@ botaoMandarEstoque.addEventListener("click", mandarParaEstoque);
 //funções que tem as funcionabilidades do sistema, aqui temos todo o crud
 
 async function mandarParaEstoque() {
-  const id = parseInt(nomeArea.value);
+  const id = idDoItem.value
+  console.log(id);
   // const result = id.length[0];
   const quantidade = parseInt(quantidadeArea.value);
-  console.log(id)
+  
   await window.shiftAPI.mandarParaEstoque(id, quantidade);
   carregarLinhaArea();
 }
@@ -34,6 +36,9 @@ async function mandarParaEstoque() {
 function criarLinhaArea(area) {
   const linha = document.createElement("tr");
 
+  const id_item = document.createElement("td");
+  id_item.textContent = area.id_roupa
+  linha.appendChild(id_item);
   const calcularNome = document.createElement("td");
   calcularNome.textContent = area.nome;
   linha.appendChild(calcularNome);
@@ -59,6 +64,7 @@ function criarLinhaArea(area) {
   botao.addEventListener("click", function () {
     mostrarDetalhes(
       area.id,
+      area.id_roupa,
       area.nome,
       area.quantidade,
       area.tamanho,
@@ -104,15 +110,16 @@ function criarLinhaSelectNome(nomeRoupa) {
   nomeArea.appendChild(option);
 }
 async function carregarSelect() {
-  const listaAluno = await window.shiftAPI.buscarRoupasPreload();
-  // console.log(listaAluno);
+  const listaAluno = await window.shiftAPI.buascarRoupasArea();
+
   listaAluno.forEach(criarLinhaSelectNome);
   if (listaAluno.length < 0) {
     nomeArea.textContent = "sem dados";
   }
 }
 
-function mostrarDetalhes(id, nome, quantidade, tamanho, preco, cor) {
+function mostrarDetalhes(id, id_item, nome, quantidade, tamanho, preco, cor) {
+  idDoItem.value = id_item;
   idArea.value = id;
   nomeArea.value = nome;
   quantidadeArea.value = quantidade;
@@ -122,3 +129,4 @@ function mostrarDetalhes(id, nome, quantidade, tamanho, preco, cor) {
 }
 
 carregarLinhaArea();
+
