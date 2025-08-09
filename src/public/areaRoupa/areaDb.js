@@ -9,6 +9,10 @@ async function buscarRoupaArea() {
   return result.rows;
 }
 
+async function venderRoupa(event, id){
+
+}
+
 async function mandarParaEstoque(event, id, quantidade) {
   try {
     await db.query("BEGIN");
