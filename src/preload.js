@@ -10,15 +10,15 @@ function buascarRoupasArea() {
   return ipcRenderer.invoke("buscar-roupas-area");
 }
 function mandarParaEstoque(id, quantidade) {
-  return ipcRenderer.invoke("add-roupa-estoque",id, quantidade);
+  return ipcRenderer.invoke("add-roupa-estoque", id, quantidade);
 }
 
 ///////////////////////////////
 //espaço para roupa
 ///////////////////////////////
 
-function mandarParaAreaPreload(id, quantidade) {
-  return ipcRenderer.invoke("mandar-area", id, quantidade);
+function mandarParaAreaPreload(id, quantidade, tamanho, preco, cor) {
+  return ipcRenderer.invoke("mandar-area", id, quantidade, tamanho, preco, cor);
 }
 
 function atualizarRoupaPreload(id, nome, cor, saldo, preco, tamanho) {

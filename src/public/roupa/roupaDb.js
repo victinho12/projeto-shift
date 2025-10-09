@@ -1,57 +1,53 @@
+const { Award } = require("lucide-static");
 const db = require("../../db");
 
-async function mandarParaArea(event, id, quantidade) {
-  const limiteArea = 20;
-  const resultado = await db.query(
-    `select COALESCE(sum(quantidade), 0) as total from public.roupas_expostas where id_roupa = $1`,
-    [id]
-  );
-
-  if (resultado.rows[0].total + quantidade <= limiteArea) {
-    try {
-      await db.query("BEGIN");
-
-      // 1. Subtrai do estoque
-      const res1 = await db.query(
-        `UPDATE public.roupas_estoque
-       SET saldo = saldo - $2
-       WHERE id = $1 AND saldo >= $2;`,
-        [id, quantidade]
-      );
-
-      if (res1.rowCount === 0) {
-        throw new Error("Estoque insuficiente ou item não encontrado.");
-      }
-
-      // 2. Atualiza quantidade na área de vendas
-      await db.query(
-        `UPDATE public.roupas_expostas
-       SET quantidade = quantidade + $2
-       WHERE id_roupa = $1;`,
-        [id, quantidade]
-      );
-
-      // 3. Insere se ainda não existe
-      await db.query(
-        `INSERT INTO public.roupas_expostas (id_roupa, quantidade, tamanho, preco, cor)
-       SELECT e.id, $2, e.tamanho, e.preco, e.cor
-       FROM public.roupas_estoque e
-       WHERE e.id = $1
-         AND NOT EXISTS (
-           SELECT 1 FROM public.roupas_expostas r WHERE r.id_roupa = e.id
-         );`,
-        [id, quantidade]
-      );
-
-      await db.query("COMMIT");
-      return { success: true };
-    } catch (error) {
-      await db.query("ROLLBACK");
-      console.error("Erro ao transferir:", error.message);
-      return { success: false, error: error.message };
+async function mandarParaArea(event, id, quantidade, tamanho, preco, cor) {
+  try {
+    await db.query(`BEGIN`);
+    const resultExist = await db.query(
+      `SELECT id_roupa, quantidade FROM PUBLIC.roupas_expostas where id_roupa = $1`,
+      [id]
+    );
+    const resultExistEstoque = await db.query(
+      `SELECT * FROM PUBLIC.roupas_estoque WHERE id = $1`,
+      [id]
+    );
+    if (resultExistEstoque.rows.length === 0) {
+      throw new Error("Roupa não encontrada");
     }
-  } else {
-    return { success: false, error: "limite de roupas em area atingida" };
+    if (quantidade > resultExistEstoque.rows[0].saldo) {
+      throw new Error("limite atingido");
+    }
+
+    if (resultExist.rows.length === 0) {
+      const resultInsert = await db.query(
+        `INSERT INTO PUBLIC.roupas_expostas (id_roupa, quantidade, tamanho, preco, cor) VALUES ($1, $2, $3, $4, $5) RETURNING *;`,
+        [id, quantidade, tamanho, preco, cor]
+      );
+
+      const resultEstoque = await db.query(
+        `UPDATE PUBLIC.roupas_estoque SET saldo = saldo - $1 WHERE id = $2`,
+        [quantidade, id]
+      );
+
+      await db.query(`COMMIT`);
+      return { success: true, menssage: "operação feita com sucesso" };
+    } else {
+      const resultUpdate2 = await db.query(
+        `UPDATE PUBLIC.roupas_estoque SET saldo = saldo - $2 WHERE id = $1`,
+        [id, quantidade]
+      );
+
+      const resultUpdate3 = await db.query(
+        `UPDATE PUBLIC.roupas_expostas SET quantidade = quantidade + $2 WHERE id_roupa = $1`,
+        [id, quantidade]
+      );
+      await db.query(`COMMIT`);
+      return { success: true, menssage: "Operação efetuada" };
+    }
+  } catch (error) {
+    await db.query(`ROLLBACK`);
+    return { success: false, menssage: `error ao realizar operação ${error}` };
   }
 }
 
@@ -84,7 +80,7 @@ async function adicionarRoupasDb(event, nome, cor, saldo, preço, tamanho) {
 
 async function buscarRoupasDb() {
   const result = await db.query(
-    "select * from public.roupas_estoque order by id"
+    "SELECT * FROM PUBLIC.roupas_estoque ORDER BY nome ASC, cor ASC, CASE tamanho WHEN 'P' THEN 1 WHEN 'M' THEN 2 WHEN 'G' THEN 3 WHEN 'GG' THEN 4 END ASC;"
   );
 
   return result.rows;

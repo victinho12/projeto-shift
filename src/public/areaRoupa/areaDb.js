@@ -1,56 +1,54 @@
 const { error } = require("jquery");
 const db = require("../../db");
-const { ReceiptPoundSterling } = require("lucide-static");
+const { ReceiptPoundSterling, Award } = require("lucide-static");
 
 async function buscarRoupaArea() {
   const result = await db.query(
-    "select roupas_expostas.id, roupas_estoque.nome as nome, quantidade, roupas_expostas.tamanho, roupas_expostas.preco, roupas_estoque.cor from public.roupas_expostas join public.roupas_estoque on roupas_expostas.id_roupa = roupas_estoque.id order by quantidade asc "
+    "select roupas_expostas.id, roupas_expostas.id_roupa ,roupas_estoque.nome as nome, quantidade, roupas_expostas.tamanho, roupas_expostas.preco, roupas_estoque.cor from public.roupas_expostas join public.roupas_estoque on roupas_expostas.id_roupa = roupas_estoque.id order by quantidade asc;"
   );
   return result.rows;
 }
 
 async function mandarParaEstoque(event, id, quantidade) {
-  const resultado = await db.query(
-    `SELECT COALESCE(SUM(saldo), 0) AS total FROM public.roupas_estoque WHERE id = $1`,
-    [id]
-  );
-
   try {
-    await db.query("BEGIN");
-
-    // 1. Subtrai da área de vendas
-    const result1 = await db.query(
-      `UPDATE public.roupas_expostas 
-         SET quantidade = quantidade - $2
-         WHERE id_roupa = $1 AND quantidade >= $2;`,
-      [id, quantidade]
+    await db.query(`BEGIN`);
+    const selectExistEstoque = await db.query(`
+      SELECT * FROM PUBLIC.roupas_estoque WHERE id = $1
+      `,[id]
     );
-
-    if (result1.rowCount === 0) {
-      throw new Error(
-        "Item não encontrado ou quantidade insuficiente na área de vendas."
-      );
+    const selectExistExpostas = await db.query(
+      `SELECT * FROM PUBLIC.roupas_expostas WHERE id_roupa = $1`,
+      [id]
+    );
+    if(selectExistExpostas.rows.length === 0){
+      throw new Error("roupa inexistente");
+    };
+    if(selectExistExpostas.rows[0].quantidade < quantidade){
+      throw new Error("selecione uma quantidade valida para mando de volta para o estoque")
     }
 
-    // 2. Devolve para o estoque (faz insert ou update)
-    await db.query(
-      `INSERT INTO public.roupas_estoque (id, nome, cor, saldo, preco, tamanho)
-         SELECT e.id_roupa, e.nome, e.cor, $2, e.preco, e.tamanho
-         FROM public.roupas_expostas e
-         WHERE e.id_roupa = $1
-         ON CONFLICT (id)
-         DO UPDATE SET saldo = public.roupas_estoque.saldo + EXCLUDED.saldo;`,
+    const resultUpdate = await db.query(
+      `UPDATE PUBLIC.roupas_expostas SET quantidade = quantidade - $2 WHERE id_roupa = $1`,
+      [id, quantidade]
+    );
+    const resultUpdate2 = await db.query(
+      `UPDATE PUBLIC.roupas_estoque SET saldo = saldo + $2 WHERE id = $1`,
       [id, quantidade]
     );
 
-    await db.query("COMMIT");
-    return { success: true };
+
+    await db.query(`COMMIT`);
+    return{success: true, menssage: "Operação feita com succeso."}
   } catch (error) {
-    await db.query("ROLLBACK");
-    console.error("Erro ao transferir:", error.message);
-    return { success: false, error: error.message };
+    await db.query(`ROLLBACK`);
+    return {
+      success: false,
+      menssage: `não foi possivel efetuar a operação ${error}`,
+    };
   }
 }
+
+async function venderRoupa(params) {}
 
 module.exports = {
   buscarRoupaArea,

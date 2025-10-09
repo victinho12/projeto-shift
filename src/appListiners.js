@@ -1,6 +1,6 @@
 const { ipcMain } = require("electron");
 // janela principaç do meu index
-const { modalAbrirRoupa, modalAbrirJanelaArea} = require("./windowModal");
+const { modalAbrirRoupa, modalAbrirJanelaArea } = require("./windowModal");
 
 // importação de roupas
 const {
@@ -14,7 +14,10 @@ const {
 } = require("./public/roupa/roupaDb");
 
 //importação de area de vendas || roupas que estão expostas
-const { buscarRoupaArea, mandarParaEstoque } = require("./public/AreaRoupa/areaDb");
+const {
+  buscarRoupaArea,
+  mandarParaEstoque,
+} = require("./public/areaRoupa/areaDb");
 
 //login validar //
 const { validarLogin } = require("./public/login/loginDb");
@@ -23,15 +26,15 @@ const { validarLogin } = require("./public/login/loginDb");
 const { createMainWindow, createMainWindowUser } = require("./mainWindor");
 
 // janela de dialogo
-const {mostrarAlert, mostrarConfirm} = require('./public/dialog/dialog');
+const { mostrarAlert, mostrarConfirm } = require("./public/dialog/dialog");
 
 //////////////////////////////////////////////////////////////////////
 // AQUI SEPARA AS IMPORTAÇÃO, DAS FUNÇÕES DE CHAMADA DO SISTEMA NO BACK AND
 /////////////////////////////////////////////////////////////////////
 
-function registarRoupasArea(){
-  ipcMain.handle('buscar-roupas-area', buscarRoupaArea);
-  ipcMain.handle('add-roupa-estoque', mandarParaEstoque);
+function registarRoupasArea() {
+  ipcMain.handle("buscar-roupas-area", buscarRoupaArea);
+  ipcMain.handle("add-roupa-estoque", mandarParaEstoque);
 }
 
 // registro de roupas
@@ -40,9 +43,9 @@ function registrarRoupa() {
   ipcMain.handle("adicionar-roupa", adicionarRoupasDb);
   ipcMain.handle("excluir-roupa", excluirRoupaDb);
   ipcMain.handle("atualizar-roupa", atualizarRoupaDb);
-  ipcMain.handle("buscar-nome",buscarRoupasPorNomeDb);
+  ipcMain.handle("buscar-nome", buscarRoupasPorNomeDb);
   ipcMain.handle("mandar-area", mandarParaArea);
- ipcMain.handle("mostrar-area-roupa", buscarAreaDbRoupas);
+  ipcMain.handle("mostrar-area-roupa", buscarAreaDbRoupas);
 }
 
 function registrarModal() {
@@ -60,7 +63,7 @@ function registrarvalidarLogin() {
 }
 
 // registro de dialog
-function registrarDialog(){
+function registrarDialog() {
   ipcMain.handle("abrir-dialog-alert", mostrarAlert);
   ipcMain.handle("abrir-dialog-confirm", mostrarConfirm);
 }

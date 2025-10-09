@@ -29,6 +29,7 @@
       <table id="areaTable">
         <thead>
           <tr>
+            <th>ID_ROUPA</th>
             <th>NOME</th>
             <th>QUANTIDADE</th>
             <th>TAMANHO</th>
@@ -43,12 +44,8 @@
         <h3>EDITE OS DAS PARA AREA DE VENDAS</h3>
 
         <label>ID <input type="text" id="id-area" readonly /></label>
-        <label>NOME<select class="selectPesquisa" id="nome"></select> </label>
-        <script>
-          $(document).ready(function () {
-            $(".selectPesquisa").select2();
-          });
-        </script>
+        <label>NOME <input type = "text" id="nome"> </label>
+        <label>id_roupa<input type="text" id="id_roupa"></label>
         <label
           >QUANTIDADE
           <select id="roupa-saldo">

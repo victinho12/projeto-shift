@@ -31,8 +31,11 @@ async function mandarParaArea() {
   const id = modalIdRoupa.value;
   const saldo = modalSaldoRoupa.value;
   const nome = modalNomeRoupa.value;
+  const tamanho = modalTamanho.value;
+  const preco = modalPreco.value;
+  const cor = modalCorRoupa.value;
 
-  if (!id || !saldo || !nome) {
+  if (!saldo || !nome) {
     await window.dialog.alert("insira todas as informações!!");
   } else {
     if (
@@ -40,7 +43,13 @@ async function mandarParaArea() {
         `deseja adicionar ${saldo} ${nome} para a area de vendas? `
       )
     ) {
-      const result = await window.shiftAPI.mandarParaAreaPreload(id, saldo);
+      const result = await window.shiftAPI.mandarParaAreaPreload(
+        id,
+        saldo,
+        tamanho,
+        preco,
+        cor
+      );
       if (!result.success) {
         await window.dialog.alert(
           `Não foi possivel inserir, limite ja atingido`

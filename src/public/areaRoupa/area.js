@@ -4,6 +4,7 @@ const tabelaArea = document.getElementById("areaTableDados");
 //modais
 
 const idArea = document.getElementById("id-area");
+const id_roupa = document.getElementById("id_roupa");
 const nomeArea = document.getElementById("nome");
 const quantidadeArea = document.getElementById("roupa-saldo");
 const tamanhoArea = document.getElementById("tamanho");
@@ -14,24 +15,32 @@ const botaoLimpar = document.getElementById("btn-limpar");
 const botaoExcluir = document.getElementById("btn-excluir");
 const botaoMandarEstoque = document.getElementById("btn-mandar-estoque");
 // funções de click
-botaoMandarEstoque.addEventListener("click", mandarParaEstoque);
+botaoMandarEstoque.addEventListener('click', mandarParaEstoque);
 
 // funções que registram as funcionabilidades do sistema
 
 //funções que tem as funcionabilidades do sistema, aqui temos todo o crud
 
 async function mandarParaEstoque() {
-  const id = nomeArea.value;
-  const result = id.length[0];
+  const id = id_roupa.value;
   const quantidade = quantidadeArea.value;
-
-  await window.shiftAPI.mandarParaEstoque(result, quantidade);
+  if(!quantidade){
+    await window.dialog.alert("Selecione um valor valido");
+  }
+  await window.dialog.confirm(`Passar para a area?`)
+ await window.shiftAPI.mandarParaEstoque(id, quantidade); 
+  console.log(id);
   carregarLinhaArea();
 }
+
 
 // funções que adicionan os selects e a tabela de roupas que estão em area, o codigo desgraçado
 function criarLinhaArea(area) {
   const linha = document.createElement("tr");
+
+  const calcaularId = document.createElement("td");
+  calcaularId.textContent = area.id_roupa;
+  linha.appendChild(calcaularId);
 
   const calcularNome = document.createElement("td");
   calcularNome.textContent = area.nome;
@@ -58,6 +67,7 @@ function criarLinhaArea(area) {
   botao.addEventListener("click", function () {
     mostrarDetalhes(
       area.id,
+      area.id_roupa,
       area.nome,
       area.quantidade,
       area.tamanho,
@@ -82,7 +92,7 @@ async function carregarLinhaArea() {
   if (linhaArea.length === 0) {
     const aviso = document.createElement("tr");
     const td = document.createElement("td");
-    td.colSpan = 5; // quantidade de colunas da tabela
+    td.colSpan = 6 // quantidade de colunas da tabela
     td.textContent = "Sem dados";
     aviso.appendChild(td);
     tabelaArea.appendChild(aviso);
@@ -93,25 +103,25 @@ async function carregarLinhaArea() {
     botaoSalvar.disabled = true;
   }
   lucide.createIcons();
-  carregarSelect();
 }
 
-function criarLinhaSelectNome(nomeRoupa) {
-  const option = document.createElement("option");
-  option.textContent = nomeRoupa.nome; // texto que aparece pro usuário
-  option.value = nomeRoupa.id; // id numérico para enviar ao backend
-  nomeArea.appendChild(option);
-}
-async function carregarSelect() {
-  const listaAluno = await window.shiftAPI.buscarRoupasPreload();
-  console.log(listaAluno);
-  listaAluno.forEach(criarLinhaSelectNome);
-  if (listaAluno.length < 0) {
-    nomeArea.textContent = "sem dados";
-  }
-}
+// function criarLinhaSelectNome(nomeRoupa) {
+//   const option = document.createElement("option");
+//   option.textContent = nomeRoupa.nome; // texto que aparece pro usuário
+//   option.value = nomeRoupa.id_roupa; // id numérico para enviar ao backend
+//   nomeArea.appendChild(option);
+// }
+// async function carregarSelect() {
+//   const listaAluno = await window.shiftAPI.buascarRoupasArea();
+//   console.log(listaAluno);
+//   listaAluno.forEach(criarLinhaSelectNome);
+//   if (listaAluno.length < 0) {
+//     nomeArea.textContent = "sem dados";
+//   }
+// }
 
-function mostrarDetalhes(id, nome, quantidade, tamanho, preco, cor) {
+function mostrarDetalhes(id, idRoupa,nome, quantidade, tamanho, preco, cor) {
+  id_roupa.value = idRoupa;
   idArea.value = id;
   nomeArea.value = nome;
   quantidadeArea.value = quantidade;
