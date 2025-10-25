@@ -1,16 +1,10 @@
-const { error } = require("jquery");
 const db = require("../../db");
-const { ReceiptPoundSterling } = require("lucide-static");
 
 async function buscarRoupaArea() {
   const result = await db.query(
     "select roupas_expostas.id, roupas_expostas.id_roupa ,roupas_estoque.nome as nome, quantidade, roupas_expostas.tamanho, roupas_expostas.preco, roupas_estoque.cor from public.roupas_expostas join public.roupas_estoque on roupas_expostas.id_roupa = roupas_estoque.id order by quantidade asc "
   );
   return result.rows;
-}
-
-async function venderRoupa(event, id){
-
 }
 
 async function mandarParaEstoque(event, id, quantidade) {
@@ -56,7 +50,15 @@ async function mandarParaEstoque(event, id, quantidade) {
   }
 }
 
+
+async function buscarRoupaPorNomeArea(event, nome) {
+  await db.query(`SELECT roupas_expostas.id, roupas_estoque.nome as nome, roupas_expostas.quantidade, roupas_expostas.tamanho, roupas_expostas.preco, roupas_expostas.cor
+FROM PUBLIC.roupas_expostas
+INNER JOIN PUBLIC.roupas_estoque ON roupas_expostas.id_roupa = roupas_estoque.id WHERE nome = $1  `, [nome]);
+}
+
 module.exports = {
   buscarRoupaArea,
   mandarParaEstoque,
+  buscarRoupaPorNomeArea,
 };

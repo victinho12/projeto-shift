@@ -22,13 +22,20 @@ botaoMandarEstoque.addEventListener("click", mandarParaEstoque);
 //funções que tem as funcionabilidades do sistema, aqui temos todo o crud
 
 async function mandarParaEstoque() {
-  const id = idDoItem.value
-  console.log(id);
-  // const result = id.length[0];
+  const id = idDoItem.value 
   const quantidade = parseInt(quantidadeArea.value);
-  
-  await window.shiftAPI.mandarParaEstoque(id, quantidade);
-  carregarLinhaArea();
+  if (!id || Number.isNaN(quantidade)) {
+    
+    await window.dialog.alert("Insira todas as informações!!")
+  } else {
+    if (await window.dialog.confirm(`Deseja adicionar para o estoque?`)) {
+      const mandaParaEstoqueResult = await window.shiftAPI.mandarParaEstoque(id, quantidade);
+      if (mandaParaEstoqueResult) {
+        await window.dialog.alert(`Transição feita com succeso!`);
+        carregarLinhaArea();
+      }
+    }
+  }
 }
 
 
@@ -79,6 +86,7 @@ function criarLinhaArea(area) {
   linha.appendChild(calcularBotao);
 
   tabelaArea.appendChild(linha);
+  carregarSelect();
 }
 
 async function carregarLinhaArea() {
@@ -116,6 +124,7 @@ async function carregarSelect() {
   if (listaAluno.length < 0) {
     nomeArea.textContent = "sem dados";
   }
+
 }
 
 function mostrarDetalhes(id, id_item, nome, quantidade, tamanho, preco, cor) {
@@ -127,6 +136,6 @@ function mostrarDetalhes(id, id_item, nome, quantidade, tamanho, preco, cor) {
   precoArea.value = preco;
   corArea.value = cor;
 }
-
+carregarLinhaArea();
 carregarLinhaArea();
 

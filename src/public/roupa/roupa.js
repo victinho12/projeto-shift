@@ -33,11 +33,11 @@ async function mandarParaArea() {
   const nome = modalNomeRoupa.value;
 
   if (!id || !saldo || !nome) {
-    await window.dialog.alert("insira todas as informações!!");
+    await window.dialog.alert("Insira todas as informações!!");
   } else {
     if (
       await window.dialog.confirm(
-        `deseja adicionar ${saldo} ${nome} para a area de vendas? `
+        `Deseja adicionar para a area de vendas?`
       )
     ) {
       const result = await window.shiftAPI.mandarParaAreaPreload(id, saldo);
